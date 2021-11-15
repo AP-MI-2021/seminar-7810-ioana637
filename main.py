@@ -5,7 +5,7 @@ from domain.LocationValidator import LocationValidator
 from domain.OrderValidator import OrderValidator
 from repository.car_file_repository import CarFileRepository
 from repository.car_repository import CarRepository
-from repository.comanda_repository import ComandaRepository
+from repository.comanda_repository import OrderRepository
 from repository.locatie_repository import LocatieRepository
 from service.car_service import CarService
 from service.location_service import LocationService
@@ -16,7 +16,7 @@ test_all()
 car_repository = CarRepository()
 # car_repository = CarFileRepository('cars.pkl')
 location_repository = LocatieRepository()
-order_repository = ComandaRepository()
+order_repository = OrderRepository()
 
 car_validator = CarValidator()
 order_validator = OrderValidator()

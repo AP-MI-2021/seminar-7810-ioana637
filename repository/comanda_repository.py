@@ -1,7 +1,7 @@
 from domain.Comanda import Comanda
 
 
-class ComandaRepository:
+class OrderRepository:
     '''
     Repository for storing data in memory
     '''

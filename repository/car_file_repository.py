@@ -1,15 +1,18 @@
 import pickle
 
-class CarFileRepository:
+from repository.car_repository import CarRepository
+
+
+class CarFileRepository(CarRepository):
     '''
-    Repository for storing data in memory
+    Repository for storing data in file
     '''
 
     def __init__(self, filename):
         '''
         Creates an in memory repository.
         '''
-        self.__storage = {}
+        super().__init__()
         self.__filename = filename or 'cars.pkl'
 
     # metode CRUD
@@ -29,8 +32,11 @@ class CarFileRepository:
             self.__storage.clear()
 
     def __save_to_file(self):
-        with open(self.__filename, 'wb') as f_write:
-            pickle.dump(self.__storage, f_write)
+        try:
+            with open(self.__filename, 'wb') as f_write:
+                pickle.dump(self.__storage, f_write)
+        except Exception:
+            self.__storage.clear()
 
     def create(self, car):
         '''
@@ -40,10 +46,7 @@ class CarFileRepository:
         :raises: KeyError if the id already exists
         '''
         self.__load_from_file()
-        car_id = car.id
-        if car_id in self.__storage:
-            raise KeyError('The car id already exists!')
-        self.__storage[car_id] = car
+        super().create(car)
         self.__save_to_file()
 
     def read(self, car_id=None):
@@ -53,12 +56,7 @@ class CarFileRepository:
         :return: the list of cars or the car with the given id
         '''
         self.__load_from_file()
-        if car_id is None:
-            return self.__storage.values()
-
-        if car_id in self.__storage:
-            return self.__storage[car_id]
-        return None
+        return super().read(car_id)
 
     def update(self, car):
         '''
@@ -68,10 +66,7 @@ class CarFileRepository:
         :raises: KeyError if the id does not exist
         '''
         self.__load_from_file()
-        car_id = car.id
-        if car_id not in self.__storage:
-            raise KeyError('There is no car with that id!')
-        self.__storage[car_id] = car
+        super().update(car)
         self.__save_to_file()
 
     def delete(self, car_id):
@@ -82,11 +77,9 @@ class CarFileRepository:
         :raises KeyError: if no car with car_id
         '''
         self.__load_from_file()
-        if car_id not in self.__storage:
-            raise KeyError('There is no car with that id!')
-        del self.__storage[car_id]
+        super().delete(car_id)
         self.__save_to_file()
 
     def clear(self):
-        self.__storage.clear()
+        super().clear()
         self.__save_to_file()

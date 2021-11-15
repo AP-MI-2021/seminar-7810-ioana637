@@ -1,4 +1,7 @@
+from domain import CarValidator
 from domain.Car import Car
+from repository.car_repository import CarRepository
+from repository.comanda_repository import OrderRepository
 
 
 class CarService:
@@ -6,7 +9,7 @@ class CarService:
 
     """
 
-    def __init__(self, car_repo, car_validator, order_repo):
+    def __init__(self, car_repo: CarRepository, car_validator: CarValidator, order_repo: OrderRepository):
         """
 
         :param car_repo:

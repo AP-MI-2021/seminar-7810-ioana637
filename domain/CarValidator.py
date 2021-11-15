@@ -1,4 +1,6 @@
 #  indicativ, nivel confort (standard, ridicat, premium), plata cu cardul (da / nu), model.
+from domain.ValidationException import ValidationException
+
 
 class CarValidator:
     def validate(self, car):
@@ -20,6 +22,6 @@ class CarValidator:
         if car.plata_card not in [True, False]:
             errors.append('Plata cu cardul trebuie sa fie una dintre: da, nu')
         if errors != []:
-            raise ValueError(errors)
+            raise ValidationException(errors)
 
 

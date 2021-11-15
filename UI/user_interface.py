@@ -1,3 +1,8 @@
+from domain.ValidationException import ValidationException
+from repository.repository_exception import RepositoryException
+from service.service_exception import ServiceException
+
+
 class UserInterface:
     def __init__(self, car_service, location_service, order_service):
         self.__car_service = car_service
@@ -16,6 +21,7 @@ class UserInterface:
         1. Adaugare masina
         2. Editare
         3. Stergere 
+        4. Ordonarea mașinilor crescător după costul mediu / km.
         a. afisare
         b. Back
         """)
@@ -34,6 +40,7 @@ class UserInterface:
         1. Adaugare locatie
         2. Editare
         3. Stergere 
+        4. Ordonarea străzilor descrescător după lungimea indicațiilor
         a. afisare
         b. Back
         """)
@@ -46,6 +53,8 @@ class UserInterface:
                 self.__handle_masini_add()
             elif op == '2':
                 self.__handle_masini_remove()
+            elif op == '4':
+                self.__sort_cars_cost_km()
             elif op == 'a':
                 self.__show_list(self.__car_service.get_all())
             elif op == 'b':
@@ -75,8 +84,12 @@ class UserInterface:
                 model
             )
             print('Masina a fost adaugata!')
-        except Exception as ex:
-            print('Eroare:', ex)
+        except RepositoryException as ex:
+            print('Eroare in repository:', ex)
+        except ServiceException as ex:
+            print('Eroare in service:', ex)
+        except ValidationException as ex:
+            print('Eroare in validator:', ex)
 
     def __show_list(self, objects):
         for object in objects:
@@ -103,6 +116,8 @@ class UserInterface:
             op = input('Optiune: ')
             if op == '1':
                 self.__handle_location_add()
+            elif op == '4':
+                self.__sort_streets_based_on_indications()
             elif op == 'a':
                 self.__show_list(self.__location_service.get_all())
             elif op == 'b':
@@ -164,6 +179,13 @@ class UserInterface:
             print('Comanda a fost adaugata!')
         except Exception as err:
             print('Erori:', err)
+
+    def __sort_streets_based_on_indications(self):
+        self.__location_service.sort_streets()
+
+    def __sort_cars_cost_km(self):
+        self.__car_service.sort_cars()
+
 
 
 

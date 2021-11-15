@@ -55,6 +55,11 @@ class Car:
     def model(self, value):
         self.__model = value
 
+
+    def search_text(self, search) -> True or False:
+        return (search in self.__model or search in self.__confort)
+
+
     def __str__(self):
         return 'Car {}. {} - {}, confort: {}, plata card: {}'.format(self.id,
                                         self.indicativ, self.model, self.confort, self.plata_card)

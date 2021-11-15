@@ -1,11 +1,14 @@
 from domain.Locatie import Locatie
+from domain.LocationValidator import LocationValidator
+from repository.comanda_repository import OrderRepository
+from repository.locatie_repository import LocatieRepository
 
 
 class LocationService:
     '''
     '''
 
-    def __init__(self, location_repo, location_validator, order_repo):
+    def __init__(self, location_repo: LocatieRepository, location_validator: LocationValidator, order_repo: OrderRepository):
         '''
         '''
         self.__repository = location_repo
@@ -23,9 +26,10 @@ class LocationService:
     def delete_location(self, id):
         pass
 
-    def get_all(self):
+    def get_all(self) -> [Locatie]:
         return self.__repository.read()
 
 
-
-
+    def sort_streets(self):
+        streets = self.get_all()
+        return sorted(streets, key=lambda x: len(x.indicatii), reverse=True)

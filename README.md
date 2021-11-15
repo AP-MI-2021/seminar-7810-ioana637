@@ -20,3 +20,5 @@ Propunere de organizare pe iterații:
 Folosiți arhitectură stratificată conform discuțiilor de la curs.
 
 ![arhitectura stratificata](https://user-images.githubusercontent.com/2019410/139555775-d89f65b2-2e20-4bf1-b39f-e34b5c42a1c2.png)
+
+https://www.python.org/dev/peps/pep-0008/

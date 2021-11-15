@@ -1,6 +1,4 @@
-import pickle
-
-from domain.Car import Car
+from repository.repository_exception import RepositoryException
 
 
 class CarRepository:
@@ -29,7 +27,7 @@ class CarRepository:
         '''
         car_id = car.id
         if car_id in self.__storage:
-            raise KeyError('The car id already exists!')
+            raise RepositoryException('The car id already exists!')
         self.__storage[car_id] = car
 
     def read(self, car_id=None):
@@ -54,7 +52,7 @@ class CarRepository:
         '''
         car_id = car.id
         if car_id not in self.__storage:
-            raise KeyError('There is no car with that id!')
+            raise RepositoryException('There is no car with that id!')
         self.__storage[car_id] = car
 
     def delete(self, car_id):
@@ -65,7 +63,7 @@ class CarRepository:
         :raises KeyError: if no car with car_id
         '''
         if car_id not in self.__storage:
-            raise KeyError('There is no car with that id!')
+            raise RepositoryException('There is no car with that id!')
         del self.__storage[car_id]
 
     def clear(self):
