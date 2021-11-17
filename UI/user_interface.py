@@ -14,6 +14,16 @@ class UserInterface:
         1. Masini
         2. Locatii
         3. Comenzi
+        4. Rapoarte
+        """)
+
+    def __print_menu_raports(self):
+        print("""
+        RAPOARTE ----
+        1. Ordonarea străzilor descrescător după lungimea indicațiilor
+        2. Ordonarea mașinilor crescător după costul mediu / km.
+        3. Determinarea străzilor cu cele mai lungi comenzi (ca distanță).
+        b. Back
         """)
 
     def __print_menu_car(self):
@@ -21,7 +31,6 @@ class UserInterface:
         1. Adaugare masina
         2. Editare
         3. Stergere 
-        4. Ordonarea mașinilor crescător după costul mediu / km.
         a. afisare
         b. Back
         """)
@@ -32,6 +41,7 @@ class UserInterface:
         2. Editare
         3. Stergere 
         a. afisare
+        aa. afisare completa
         b. Back
         """)
 
@@ -40,10 +50,25 @@ class UserInterface:
         1. Adaugare locatie
         2. Editare
         3. Stergere 
-        4. Ordonarea străzilor descrescător după lungimea indicațiilor
+        4. Undo
         a. afisare
         b. Back
         """)
+
+    def __show_raports(self):
+        while True:
+            self.__print_menu_raports()
+            op = input('Optiune: ')
+            if op == '1':
+                self.__sort_streets_based_on_indications()
+            elif op == '2':
+                self.__sort_cars_cost_km()
+            elif op == '3':
+                self.__get_streets_ordered_by_orders()
+            elif op == 'b':
+                break
+            else:
+                print('Comanda invalida!')
 
     def __show_cars(self):
         while True:
@@ -105,6 +130,8 @@ class UserInterface:
                 self.__show_locations()
             elif op == '3':
                 self.__show_orders()
+            elif op == '4':
+                self.__show_raports()
             elif op == 'x':
                 break
             else:
@@ -117,7 +144,7 @@ class UserInterface:
             if op == '1':
                 self.__handle_location_add()
             elif op == '4':
-                self.__sort_streets_based_on_indications()
+                self.__location_service.undo()
             elif op == 'a':
                 self.__show_list(self.__location_service.get_all())
             elif op == 'b':
@@ -133,6 +160,8 @@ class UserInterface:
                 self.__handle_order_add()
             elif op == 'a':
                 self.__show_list(self.__order_service.get_all())
+            elif op == 'aa':
+                self.__show_list(self.__order_service.get_all_with_cars_and_locations())
             elif op == 'b':
                 break
             else:
@@ -181,10 +210,19 @@ class UserInterface:
             print('Erori:', err)
 
     def __sort_streets_based_on_indications(self):
-        self.__location_service.sort_streets()
+        result = self.__location_service.sort_streets()
+        for street in result:
+            print(street)
+
+    def __get_streets_ordered_by_orders(self):
+        result = self.__order_service.get_streets_ordered()
+        for street in result:
+            print(street)
 
     def __sort_cars_cost_km(self):
-        self.__car_service.sort_cars()
+        result = self.__order_service.sort_cars()
+        for car in result:
+            print(car)
 
 
 

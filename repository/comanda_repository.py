@@ -69,3 +69,10 @@ class OrderRepository:
     def clear(self):
         self.__storage.clear()
 
+
+    def findByLocationId(self, location_id):
+        pass
+
+    def findByCarId(self, car_id):
+        pass
+

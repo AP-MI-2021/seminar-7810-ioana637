@@ -1,6 +1,8 @@
 from domain.Car import Car
 from domain.CarDTO import CarDTO
 from domain.Comanda import Comanda
+from domain.Locatie import Locatie
+from domain.OrderWithCarAndLocation import OrderWithCarAndLocation
 
 
 class OrderService:
@@ -67,6 +69,29 @@ class OrderService:
             if (isinstance(el,Comanda)):
                 print('este comanda')
 
+    def get_streets_ordered(self):
+        '''
+        Determinarea străzilor cu cele mai lungi comenzi (ca distanță).
+        :return:
+        '''
+        streets = {}
+        for order in self.__repository.read():
+            location: Locatie = self.__location_repo.read(order.locatie_id)
+            street = location.strada
+            if street in streets:
+                streets[street] = max(streets[street],order.distance)
+            else:
+                streets[street] = order.distance
+        return sorted(streets.keys(), key=lambda street: streets[street], reverse=True)
 
-
-
+    def get_all_with_cars_and_locations(self):
+        orders = self.__repository.read()
+        result_list = []
+        for order in orders:
+            order_with_obj = OrderWithCarAndLocation(
+                order,
+                self.__car_repo.read(order.car_id),
+                self.__location_repo.read(order.locatie_id)
+            )
+            result_list.append(order_with_obj)
+        return result_list

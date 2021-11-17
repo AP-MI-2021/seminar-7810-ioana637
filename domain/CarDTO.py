@@ -1,4 +1,6 @@
 #  indicativ, nivel confort (standard, ridicat, premium), plata cu cardul (da / nu), model.
+from domain.Car import Car
+
 
 class CarDTO(Car):
 
@@ -31,6 +33,6 @@ class CarDTO(Car):
 
 
     def __str__(self):
-        return super().__str__() + ' cost mediu: '+self.__cost_mediu
+        return super().__str__() + ' cost mediu: '+ str(self.__suma_cost / self.__nr_cost)
 
 
