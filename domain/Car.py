@@ -1,9 +1,11 @@
 #  indicativ, nivel confort (standard, ridicat, premium), plata cu cardul (da / nu), model.
+from domain.entity import Entity
 
-class Car:
+
+class Car(Entity):
 
     def __init__(self, id, indicativ, confort, plata_card, model):
-        self.__id = id
+        super().__init__(id)
         self.__indicativ = indicativ
         self.__confort = confort
         self.__plata_card = plata_card
@@ -14,14 +16,6 @@ class Car:
     #
     # def set_indicativ(self, indicativ):
     #     self.__indicativ = indicativ
-
-    @property
-    def id(self):
-        return self.__id
-
-    @id.setter
-    def id(self, value):
-        self.__id = value
 
     @property
     def indicativ(self):

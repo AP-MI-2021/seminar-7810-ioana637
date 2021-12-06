@@ -17,12 +17,15 @@ class UserInterface:
         4. Rapoarte
         """)
 
-    def __print_menu_raports(self):
+    def __print_menu_reports(self):
         print("""
         RAPOARTE ----
         1. Ordonarea străzilor descrescător după lungimea indicațiilor
         2. Ordonarea mașinilor crescător după costul mediu / km.
         3. Determinarea străzilor cu cele mai lungi comenzi (ca distanță).
+        4. Filtrarea masinilor care au un confort citit de la tastatura.
+        5. Afisarea vitezei medii pentru comenziile inregistrate in aplicatie
+        6. Afisarea perechilor formate din indicativul masinii si daca plata s-a efectuat cu cardul sau nu.
         b. Back
         """)
 
@@ -57,7 +60,7 @@ class UserInterface:
 
     def __show_raports(self):
         while True:
-            self.__print_menu_raports()
+            self.__print_menu_reports()
             op = input('Optiune: ')
             if op == '1':
                 self.__sort_streets_based_on_indications()
@@ -65,6 +68,12 @@ class UserInterface:
                 self.__sort_cars_cost_km()
             elif op == '3':
                 self.__get_streets_ordered_by_orders()
+            elif op == '4':
+                self.__get_cars_filtered_by_confort()
+            elif op == '5':
+                self.__get_speed_for_orders()
+            elif op == '6':
+                self.__get_cars_pairs_with_indicativ_and_plata_card()
             elif op == 'b':
                 break
             else:
@@ -208,6 +217,9 @@ class UserInterface:
             print('Comanda a fost adaugata!')
         except Exception as err:
             print('Erori:', err)
+        finally:
+            self.__show_list(self.__order_service.get_all())
+
 
     def __sort_streets_based_on_indications(self):
         result = self.__location_service.sort_streets()
@@ -223,6 +235,17 @@ class UserInterface:
         result = self.__order_service.sort_cars()
         for car in result:
             print(car)
+
+    def __get_cars_filtered_by_confort(self):
+        confort = input('Dati confortul')
+        # validare confortul citit de la tastatura (optional)
+        self.__show_list(self.__car_service.get_cars_by_confort(confort))
+
+    def __get_speed_for_orders(self):
+        print(self.__order_service.get_speed_for_orders())
+
+    def __get_cars_pairs_with_indicativ_and_plata_card(self):
+        self.__show_list(self.__car_service.get_pairs_with_indicativ_and_plata_card())
 
 
 

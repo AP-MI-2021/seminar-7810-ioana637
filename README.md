@@ -9,8 +9,10 @@ Scrieți folosind OOP un program pentru gestionarea unei firme de taxi. Vor fi s
 4. Ordonarea străzilor descrescător după lungimea indicațiilor
 5. Ordonarea mașinilor crescător după costul mediu / km.
 6. Determinarea străzilor cu cele mai lungi comenzi (ca distanță).
-7. Alte rapoarte.
-8. Undo+Redo în mod eficient.
+7. Filtrarea masinilor care au un confort citit de la tastatura.
+8. Afisarea vitezei medii pentru comenziile inregistrate in aplicatie
+9. Afisarea perechilor formate din indicativul masinii si daca plata s-a efectuat cu cardul sau nu.
+10. Undo+Redo în mod eficient.
 
 Propunere de organizare pe iterații:
 - Iterația 1: 1-3, repository-uri distincte, validatori.
@@ -22,3 +24,5 @@ Folosiți arhitectură stratificată conform discuțiilor de la curs.
 ![arhitectura stratificata](https://user-images.githubusercontent.com/2019410/139555775-d89f65b2-2e20-4bf1-b39f-e34b5c42a1c2.png)
 
 https://www.python.org/dev/peps/pep-0008/
+
+More on sorting in Python: https://realpython.com/sorting-algorithms-python/#implementing-timsort-in-python

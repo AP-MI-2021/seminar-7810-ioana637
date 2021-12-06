@@ -1,8 +1,11 @@
+from functools import reduce
+
 from domain.Car import Car
 from domain.CarDTO import CarDTO
 from domain.Comanda import Comanda
 from domain.Locatie import Locatie
 from domain.OrderWithCarAndLocation import OrderWithCarAndLocation
+from utils.Utils import Utils
 
 
 class OrderService:
@@ -74,24 +77,59 @@ class OrderService:
         Determinarea străzilor cu cele mai lungi comenzi (ca distanță).
         :return:
         '''
+        # streets = {}
+        # for order in self.__repository.read():
+        #     location: Locatie = self.__location_repo.read(order.locatie_id)
+        #     street = location.strada
+        #     if street in streets:
+        #         streets[street] = max(streets[street],order.distance)
+        #     else:
+        #         streets[street] = order.distance
+        # return sorted(streets.keys(), key=lambda street: streets[street], reverse=True)
+
         streets = {}
-        for order in self.__repository.read():
-            location: Locatie = self.__location_repo.read(order.locatie_id)
+        locations = self.__location_repo.read()
+        orders = self.get_all()
+
+        for location in locations:
             street = location.strada
-            if street in streets:
-                streets[street] = max(streets[street],order.distance)
-            else:
-                streets[street] = order.distance
-        return sorted(streets.keys(), key=lambda street: streets[street], reverse=True)
+            orders_distance_for_street = list(map(lambda order: order.distance,
+                                                  filter(lambda order: order.locatie_id == location.id, orders)))
+            streets[street] = reduce(lambda greatest, current: greatest if (greatest > current) else current,
+                                     orders_distance_for_street)
+        # return sorted(streets.keys(), key=lambda street: streets[street], reverse=True)
+        return Utils.sort(list(streets.keys()), key=lambda street: streets[street], reverse=True)
 
     def get_all_with_cars_and_locations(self):
-        orders = self.__repository.read()
-        result_list = []
-        for order in orders:
-            order_with_obj = OrderWithCarAndLocation(
-                order,
-                self.__car_repo.read(order.car_id),
-                self.__location_repo.read(order.locatie_id)
-            )
-            result_list.append(order_with_obj)
-        return result_list
+        # orders = self.__repository.read()
+        # result_list = []
+        # for order in orders:
+        #     order_with_obj = OrderWithCarAndLocation(
+        #         order,
+        #         self.__car_repo.read(order.car_id),
+        #         self.__location_repo.read(order.locatie_id)
+        #     )
+        #     result_list.append(order_with_obj)
+        # return result_list
+
+        # return list(map(lambda order: OrderWithCarAndLocation(
+        #     order,
+        #     self.__car_repo.read(order.car_id),
+        #     self.__location_repo.read(order.locatie_id)
+        # ), self.get_all()))
+
+        orders = self.get_all()
+        return [
+            OrderWithCarAndLocation(
+            order,
+            self.__car_repo.read(order.car_id),
+            self.__location_repo.read(order.locatie_id)) for order in orders
+        ]
+
+    def get_speed_for_orders(self):
+        orders = self.get_all()
+        sum_distance = reduce(lambda o1, o2: o1 + o2, list(map(lambda order: order.distance, orders)))
+        sum_time = reduce(lambda o1, o2: o1 + o2, list(map(lambda order: order.time, orders)))
+        return sum_distance/sum_time
+
+

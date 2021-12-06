@@ -41,3 +41,12 @@ class CarService:
 
     def get_all(self):
         return self.__repository.read()
+
+    def get_cars_by_confort(self, confort):
+        # return list(filter(lambda car: car.confort == confort, self.get_all()))
+        return [car for car in self.get_all() if car.confort == confort]
+
+    def get_pairs_with_indicativ_and_plata_card(self):
+        cars_indicative = list(map(lambda car: car.indicativ, self.get_all()))
+        cars_plata_card = list(map(lambda car: car.plata_card, self.get_all()))
+        return list(zip(cars_indicative, cars_plata_card))

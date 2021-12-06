@@ -1,17 +1,16 @@
 #  nume stradă, număr, bloc, scară, alte indicații.
+from domain.entity import Entity
 
-class Locatie:
+
+class Locatie(Entity):
     def __init__(self, id, strada, numar, bloc, scara, indicatii):
-        self.__id = id
+        super().__init__(id)
         self.__strada = strada
         self.__numar = numar
         self.__bloc = bloc
         self.__scara =scara
         self.__indicatii = indicatii
 
-    @property
-    def id(self):
-        return self.__id
 
     @property
     def strada(self):

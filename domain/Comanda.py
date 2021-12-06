@@ -1,19 +1,16 @@
 # d mașină, id locație, timp final, cost / km, distanță parcursă, status (în desfășurare, finalizată).
+from domain.entity import Entity
 
-class Comanda:
+
+class Comanda(Entity):
     def __init__(self,id, car_id, locatie_id, time, cost_km, distance, status):
-        self.__id = id
+        super().__init__(id)
         self.__car_id = car_id
         self.__locatie_id = locatie_id
         self.__time =time
         self.__cost_km = cost_km
         self.__distance = distance
         self.__status = status
-
-    @property
-    def id(self):
-        return self.__id
-
 
     @property
     def car_id(self):
